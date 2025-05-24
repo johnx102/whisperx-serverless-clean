@@ -3,12 +3,13 @@ import torch
 import os
 import tempfile
 import base64
+from whisperx.diarize import DiarizationPipeline  # ✅ import corrigé
 
 # Chargement des modèles dès le démarrage
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = whisperx.load_model("large-v2", device)
 model_a, metadata = whisperx.load_align_model(language_code="fr", device=device)
-diarize_model = whisperx.DiarizationPipeline(use_auth_token=os.getenv("HF_TOKEN"), device=device)
+diarize_model = DiarizationPipeline(use_auth_token=os.getenv("HF_TOKEN"), device=device)
 
 def handler(event):
     try:
